@@ -1,5 +1,7 @@
 package com.yokota.treino.model.set;
 
+import com.yokota.treino.model.exercise.Exercise;
+import com.yokota.treino.model.workout.Workout;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,4 +21,7 @@ public class Set {
     private double weight;
     private double reps;
     private double minutesResting;
+
+    @OneToOne
+    private Workout workout;
 }
