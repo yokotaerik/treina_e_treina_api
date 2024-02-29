@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@Table(name = "set_table")
 @Entity
 @Data
 @NoArgsConstructor

@@ -7,6 +7,7 @@ import com.yokota.treino.model.exercise.dtos.AddExerciseInfoDTO;
 import com.yokota.treino.model.set.Set;
 import com.yokota.treino.repository.ExerciseInfoRepository;
 import com.yokota.treino.repository.ExerciseRepository;
+import com.yokota.treino.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class ExerciseService {
     @Autowired
     ExerciseInfoRepository exerciseInfoRepository;
 
+    @Autowired
+    SetRepository setRepository;
+
     public void createExerciseInfo(AddExerciseInfoDTO data) {
 
         ExerciseInfo exerciseInfo = new ExerciseInfo(null, data.name(), data.description());
@@ -30,13 +34,17 @@ public class ExerciseService {
 
     public Exercise createExerciseEntity(ExerciseInfo exerciseInfo, int numberOfSets) {
 
+        Exercise exercise = new Exercise(null, exerciseInfo, null);
+
+
         List<Set> sets = new ArrayList<>();
         for (int i = 0; i < numberOfSets; i++) {
             var set = new Set();
             sets.add(set);
+            setRepository.save(set);
         }
 
-        Exercise exercise = new Exercise(null, exerciseInfo, sets);
+        exercise.setSets(sets);
 
         exerciseRepository.save(exercise);
 

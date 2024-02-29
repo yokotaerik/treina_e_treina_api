@@ -4,5 +4,5 @@ import com.yokota.treino.model.exercise.dtos.AddExerciseDTO;
 
 import java.util.List;
 
-public record CreateWorkoutDTO(String name, String description, List<AddExerciseDTO> exerciseDTOS){
+public record CreateWorkoutDTO(String name, String description, List<AddExerciseDTO> exercisesDTOS){
 }

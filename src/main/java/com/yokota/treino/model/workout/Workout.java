@@ -1,5 +1,6 @@
 package com.yokota.treino.model.workout;
 
+import com.yokota.treino.model.exercise.Exercise;
 import com.yokota.treino.model.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,8 +27,8 @@ public class Workout {
 
     private String description;
 
-    @OneToMany(mappedBy = "workout")
-    private List<com.yokota.treino.model.exercise.Exercise> Exercise;
+    @OneToMany
+    private List<Exercise> exercises = new ArrayList<>();
 
     @ManyToOne
     private User user;

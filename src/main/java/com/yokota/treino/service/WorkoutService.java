@@ -25,7 +25,7 @@ public class WorkoutService {
 
     public void createNewWorkout(CreateWorkoutDTO data, User user){
 
-        var exercises = exerciseService.createExerciseList(data.exerciseDTOS());
+        var exercises = exerciseService.createExerciseList(data.exercisesDTOS());
 
         var workout = new Workout(null, data.name(), data.description(), exercises, user);
         user.getWorkouts().add(workout);

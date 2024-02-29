@@ -22,5 +22,8 @@ public class ExerciseInfo {
     private Long id;
 
     private String name;
+
+    @Lob // Anotação para indicar que é um grande objeto (Large Object)
+    @Column(columnDefinition = "TEXT")
     private String description;
 }
