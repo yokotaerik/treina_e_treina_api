@@ -2,6 +2,7 @@ package com.yokota.treino.mappers;
 
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.model.workout.dtos.WorkoutResponseDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +13,12 @@ import java.util.stream.Collectors;
 public class WorkoutMapper {
 
     @Autowired
-    ExerciseMapper exerciseMapper;
+    private ExerciseMapper exerciseMapper;
+
+    ModelMapper modelMapper = new ModelMapper();
 
     public WorkoutResponseDTO workoutToDTO(Workout workout){
-        return new WorkoutResponseDTO(workout.getId(), workout.getName(), workout.getDescription(), exerciseMapper.exerciseResponseDTOList(workout.getExercises()));
+        return modelMapper.map(workout, WorkoutResponseDTO.class);
     }
 
     public List<WorkoutResponseDTO> workoutResponseDTOList(List<Workout> workouts){

@@ -27,7 +27,6 @@ public class ExerciseService {
     SetRepository setRepository;
 
     public void createExerciseInfo(AddExerciseInfoDTO data) {
-
         ExerciseInfo exerciseInfo = new ExerciseInfo(null, data.name(), data.description());
         exerciseInfoRepository.save(exerciseInfo);
     }

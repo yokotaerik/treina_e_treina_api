@@ -27,6 +27,8 @@ public class Workout {
 
     private String description;
 
+    private Boolean isTemplate;
+
     @OneToMany
     private List<Exercise> exercises = new ArrayList<>();
 
