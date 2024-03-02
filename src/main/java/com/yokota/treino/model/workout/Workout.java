@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,4 +35,15 @@ public class Workout {
 
     @ManyToOne
     private User user;
+
+    private LocalDate createdAt;
+
+    public Workout(Long id, String name, String description, Boolean isTemplate, List<Exercise> exercises, LocalDate createdAt) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.isTemplate = isTemplate;
+        this.exercises = exercises;
+        this.createdAt = createdAt;
+    }
 }

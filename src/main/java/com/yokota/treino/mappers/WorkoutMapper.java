@@ -18,7 +18,13 @@ public class WorkoutMapper {
     ModelMapper modelMapper = new ModelMapper();
 
     public WorkoutResponseDTO workoutToDTO(Workout workout){
-        return modelMapper.map(workout, WorkoutResponseDTO.class);
+        return new WorkoutResponseDTO(
+                workout.getId(),
+                workout.getName(),
+                workout.getDescription(),
+                exerciseMapper.exerciseResponseDTOList(workout.getExercises()),
+                workout.getIsTemplate(),
+                workout.getCreatedAt());
     }
 
     public List<WorkoutResponseDTO> workoutResponseDTOList(List<Workout> workouts){

@@ -2,8 +2,6 @@ package com.yokota.treino.mappers;
 
 import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.set.SetResponseDTO;
-import com.yokota.treino.model.workout.Workout;
-import com.yokota.treino.model.workout.dtos.WorkoutResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

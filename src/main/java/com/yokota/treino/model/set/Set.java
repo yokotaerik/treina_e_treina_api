@@ -1,6 +1,5 @@
 package com.yokota.treino.model.set;
 
-import com.yokota.treino.model.exercise.Exercise;
 import com.yokota.treino.model.workout.Workout;
 import jakarta.persistence.*;
 import lombok.Data;

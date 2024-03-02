@@ -1,17 +1,13 @@
 package com.yokota.treino.controllers;
 
-import com.yokota.treino.mappers.WorkoutMapper;
 import com.yokota.treino.model.user.User;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.model.workout.dtos.CreateWorkoutDTO;
-import com.yokota.treino.model.workout.dtos.WorkoutResponseDTO;
 import com.yokota.treino.service.AuthorizationService;
 import com.yokota.treino.service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/workout")
@@ -27,13 +23,13 @@ public class WorkoutController {
     public ResponseEntity<?> addExerciseInfo(@RequestBody CreateWorkoutDTO data) throws Exception {
             User user = authorizationService.getCurrentUser();
 
-            workoutService.createNewWorkout(data, user);
+            workoutService.createNewWorkout(data);
 
-            return ResponseEntity.ok("exercise added");
+            return ResponseEntity.ok("Workout template created!");
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> getUserWorkout(@RequestBody CreateWorkoutDTO data) throws Exception {
+    @GetMapping("/me")
+    public ResponseEntity<?> getUserWorkout() throws Exception {
         User user = authorizationService.getCurrentUser();
 
         var response = workoutService.returnUserWorkouts(user);
@@ -47,7 +43,7 @@ public class WorkoutController {
 
         Workout workout = workoutService.findById(id);
 
-        workoutService.startNewWorkout(workout);
+        workoutService.startNewWorkout(workout, user);
 
         return ResponseEntity.ok("Workout started");
     }

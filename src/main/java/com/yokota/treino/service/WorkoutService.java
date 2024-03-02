@@ -2,23 +2,20 @@ package com.yokota.treino.service;
 
 import com.yokota.treino.mappers.WorkoutMapper;
 import com.yokota.treino.model.exercise.Exercise;
-import com.yokota.treino.model.exercise.ExerciseInfo;
-import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.user.User;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.model.workout.dtos.CreateWorkoutDTO;
 import com.yokota.treino.model.workout.dtos.WorkoutResponseDTO;
-import com.yokota.treino.repository.ExerciseRepository;
-import com.yokota.treino.repository.SetRepository;
-import com.yokota.treino.repository.UserRepository;
-import com.yokota.treino.repository.WorkoutRepository;
+import com.yokota.treino.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class WorkoutService {
@@ -43,14 +40,14 @@ public class WorkoutService {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    public void createNewWorkout(CreateWorkoutDTO data, User user){
+    LocalDate now = LocalDate.now();
+
+    public void createNewWorkout(CreateWorkoutDTO data){
 
         var exercises = exerciseService.createExerciseList(data.exercisesDTOS());
 
-        var workout = new Workout(null, data.name(), data.description(), true, exercises, user);
-        user.getWorkouts().add(workout);
-        workoutRepository.save(workout);
-        userRepository.save(user);
+        var template = new Workout(null, data.name(), data.description(), true, exercises, now);
+        workoutRepository.save(template);
     }
 
     public Workout findById(Long id){
@@ -64,80 +61,32 @@ public class WorkoutService {
 
     public List<WorkoutResponseDTO> returnUserWorkouts(User user){
 
-        var workouts = user.getWorkouts();
+        List<Workout> workouts = user.getWorkouts();
 
         return workoutMapper.workoutResponseDTOList(workouts);
     }
 
-    public void startNewWorkout(Workout originalWorkout) {
-        // Obtendo o usuário associado ao treino original
-        User user = originalWorkout.getUser();
+    public void startNewWorkout(Workout template, User user){
 
-        // Criando uma cópia do treino original
-        Workout newWorkout = createCopyOfWorkout(originalWorkout, user);
-
-        // Salvando o novo treino e suas instâncias associadas
-        newWorkout = saveNewWorkout(newWorkout);
-
-        // Atualizando as referências do novo treino nas instâncias de exercícios e conjuntos
-        updateReferencesInExercisesAndSets(newWorkout);
-    }
-
-    private Workout createCopyOfWorkout(Workout originalWorkout, User user) {
+        // Criando uma nova instância de Workout
         Workout newWorkout = new Workout();
-        newWorkout.setName(originalWorkout.getName());
-        newWorkout.setDescription(originalWorkout.getDescription());
+        newWorkout.setName(template.getName());
         newWorkout.setUser(user);
         newWorkout.setIsTemplate(false);
+        newWorkout.setCreatedAt(now);
 
-        // Copiando os exercícios do treino original para o novo treino
-        List<Exercise> newExercises = copyExercises(originalWorkout.getExercises());
-        newWorkout.setExercises(newExercises);
 
-        return newWorkout;
-    }
-
-    private List<Exercise> copyExercises(List<Exercise> originalExercises) {
+        // Criando uma nova lista de exercícios para o novo treino
         List<Exercise> newExercises = new ArrayList<>();
-
-        for (Exercise originalExercise : originalExercises) {
-            Exercise newExercise = new Exercise();
-            // Copiando as informações do ExerciseInfo
-            newExercise.setInfo(originalExercise.getInfo());
-            // Copiando os conjuntos (sets)
-            List<Set> newSets = copySets(originalExercise.getSets(), newExercise);
-            // Definindo os novos conjuntos no novo exercício
-            newExercise.setSets(newSets);
+        for (Exercise exercise : template.getExercises()) {
+            var newExercise = exerciseService.createExerciseEntity(exercise.getInfo(), exercise.getSets().size());
             newExercises.add(newExercise);
         }
 
-        return newExercises;
+
+        newWorkout.setExercises(newExercises);
+
+        newWorkout = workoutRepository.save(newWorkout);
     }
-
-    private List<Set> copySets(List<Set> originalSets, Exercise newExercise) {
-        List<Set> newSets = new ArrayList<>();
-
-        for (Set originalSet : originalSets) {
-            Set newSet = new Set();
-            newSets.add(newSet);
-        }
-
-        return newSets;
-    }
-
-    private Workout saveNewWorkout(Workout newWorkout) {
-        return workoutRepository.save(newWorkout);
-    }
-
-    private void updateReferencesInExercisesAndSets(Workout newWorkout) {
-        for (Exercise exercise : newWorkout.getExercises()) {
-            exerciseRepository.save(exercise);
-            for (Set set : exercise.getSets()) {
-                set.setWorkout(newWorkout);
-                setRepository.save(set);
-            }
-        }
-    }
-
 
 }

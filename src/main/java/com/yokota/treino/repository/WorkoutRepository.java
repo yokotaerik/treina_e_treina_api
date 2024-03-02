@@ -1,6 +1,6 @@
 package com.yokota.treino.repository;
 
-import com.yokota.treino.model.exercise.ExerciseInfo;
+
 import com.yokota.treino.model.workout.Workout;
 import org.springframework.data.jpa.repository.JpaRepository;
 

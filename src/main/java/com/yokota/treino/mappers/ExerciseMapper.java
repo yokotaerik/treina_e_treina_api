@@ -4,8 +4,6 @@ import com.yokota.treino.model.exercise.Exercise;
 import com.yokota.treino.model.exercise.ExerciseInfo;
 import com.yokota.treino.model.exercise.dtos.ExerciseInfoResponseDTO;
 import com.yokota.treino.model.exercise.dtos.ExerciseResponseDTO;
-import com.yokota.treino.model.workout.Workout;
-import com.yokota.treino.model.workout.dtos.WorkoutResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

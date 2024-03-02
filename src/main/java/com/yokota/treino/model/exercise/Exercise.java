@@ -21,7 +21,7 @@ public class Exercise {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private ExerciseInfo info;
 
     @OneToMany()

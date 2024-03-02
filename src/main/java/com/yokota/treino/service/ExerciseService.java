@@ -35,7 +35,6 @@ public class ExerciseService {
 
         Exercise exercise = new Exercise(null, exerciseInfo, null);
 
-
         List<Set> sets = new ArrayList<>();
         for (int i = 0; i < numberOfSets; i++) {
             var set = new Set();
