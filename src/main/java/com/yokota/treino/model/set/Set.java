@@ -22,6 +22,6 @@ public class Set {
     private double reps;
     private double minutesResting;
 
-    @OneToOne
+    @ManyToOne
     private Workout workout;
 }

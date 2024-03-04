@@ -44,9 +44,11 @@ public class WorkoutService {
 
     public void createNewWorkout(CreateWorkoutDTO data){
 
-        var exercises = exerciseService.createExerciseList(data.exercisesDTOS());
 
-        var template = new Workout(null, data.name(), data.description(), true, exercises, now);
+        var template = new Workout(null, data.name(), data.description(), true, null, now);
+        workoutRepository.save(template);
+        var exercises = exerciseService.createExerciseList(data.exercisesDTOS(), template);
+        template.setExercises(exercises);
         workoutRepository.save(template);
     }
 
@@ -76,10 +78,12 @@ public class WorkoutService {
         newWorkout.setCreatedAt(now);
 
 
+        workoutRepository.save(newWorkout);
+
         // Criando uma nova lista de exercícios para o novo treino
         List<Exercise> newExercises = new ArrayList<>();
         for (Exercise exercise : template.getExercises()) {
-            var newExercise = exerciseService.createExerciseEntity(exercise.getInfo(), exercise.getSets().size());
+            var newExercise = exerciseService.createExerciseEntity(exercise.getInfo(), exercise.getSets().size(), newWorkout);
             newExercises.add(newExercise);
         }
 

@@ -5,6 +5,7 @@ import com.yokota.treino.model.exercise.ExerciseInfo;
 import com.yokota.treino.model.exercise.dtos.AddExerciseDTO;
 import com.yokota.treino.model.exercise.dtos.AddExerciseInfoDTO;
 import com.yokota.treino.model.set.Set;
+import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.repository.ExerciseInfoRepository;
 import com.yokota.treino.repository.ExerciseRepository;
 import com.yokota.treino.repository.SetRepository;
@@ -31,13 +32,14 @@ public class ExerciseService {
         exerciseInfoRepository.save(exerciseInfo);
     }
 
-    public Exercise createExerciseEntity(ExerciseInfo exerciseInfo, int numberOfSets) {
+    public Exercise createExerciseEntity(ExerciseInfo exerciseInfo, int numberOfSets, Workout workout) {
 
         Exercise exercise = new Exercise(null, exerciseInfo, null);
 
         List<Set> sets = new ArrayList<>();
         for (int i = 0; i < numberOfSets; i++) {
             var set = new Set();
+            set.setWorkout(workout);
             sets.add(set);
             setRepository.save(set);
         }
@@ -57,14 +59,14 @@ public class ExerciseService {
     }
 
 
-    public List<Exercise> createExerciseList(List<AddExerciseDTO> data){
+    public List<Exercise> createExerciseList(List<AddExerciseDTO> data, Workout workout){
         // Recebe uma lista de DTOs com informacoes para adicionar o exercicio e retorna as respectivas entidades
         List<Exercise> exercises = new ArrayList<>();
 
         data.forEach(addExerciseDTO -> {
             try {
                 ExerciseInfo exerciseInfo = findExerciseInfoById(addExerciseDTO.exerciseId());
-                exercises.add(createExerciseEntity(exerciseInfo, addExerciseDTO.numberOfSets()));
+                exercises.add(createExerciseEntity(exerciseInfo, addExerciseDTO.numberOfSets(), workout));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
