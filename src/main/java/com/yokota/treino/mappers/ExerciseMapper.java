@@ -27,4 +27,8 @@ public class ExerciseMapper {
     public ExerciseInfoResponseDTO exerciseInfoToDTO(ExerciseInfo exerciseInfo){
         return new ExerciseInfoResponseDTO(exerciseInfo.getId(), exerciseInfo.getName(), exerciseInfo.getDescription());
     }
+
+    public List<ExerciseInfoResponseDTO> exerciseInfoResponseDTOS(List<ExerciseInfo> infos){
+        return infos.stream().map(this::exerciseInfoToDTO).collect(Collectors.toList());
+    }
 }

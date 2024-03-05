@@ -4,7 +4,9 @@ import com.yokota.treino.model.user.User;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.model.workout.dtos.CreateWorkoutDTO;
 import com.yokota.treino.service.AuthorizationService;
+import com.yokota.treino.service.UserService;
 import com.yokota.treino.service.WorkoutService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,15 @@ public class WorkoutController {
     WorkoutService workoutService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     AuthorizationService authorizationService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addExerciseInfo(@RequestBody CreateWorkoutDTO data) throws Exception {
-            User user = authorizationService.getCurrentUser();
-
-            workoutService.createNewWorkout(data);
+    public ResponseEntity<?> addExerciseInfo(@RequestBody @Valid CreateWorkoutDTO data) throws Exception {
+            var user = authorizationService.getCurrentUser();
+            workoutService.createNewWorkout(data, user);
 
             return ResponseEntity.ok("Workout template created!");
     }

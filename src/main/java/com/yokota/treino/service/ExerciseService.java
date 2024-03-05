@@ -1,9 +1,11 @@
 package com.yokota.treino.service;
 
+import com.yokota.treino.mappers.ExerciseMapper;
 import com.yokota.treino.model.exercise.Exercise;
 import com.yokota.treino.model.exercise.ExerciseInfo;
 import com.yokota.treino.model.exercise.dtos.AddExerciseDTO;
 import com.yokota.treino.model.exercise.dtos.AddExerciseInfoDTO;
+import com.yokota.treino.model.exercise.dtos.ExerciseInfoResponseDTO;
 import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.repository.ExerciseInfoRepository;
@@ -26,6 +28,9 @@ public class ExerciseService {
 
     @Autowired
     SetRepository setRepository;
+
+    @Autowired
+    ExerciseMapper exerciseMapper;
 
     public void createExerciseInfo(AddExerciseInfoDTO data) {
         ExerciseInfo exerciseInfo = new ExerciseInfo(null, data.name(), data.description());
@@ -74,5 +79,10 @@ public class ExerciseService {
 
         return exercises;
 
+    }
+
+    public List<ExerciseInfoResponseDTO> returnAllExerciseInfos(){
+        var infos = exerciseInfoRepository.findAll();
+        return exerciseMapper.exerciseInfoResponseDTOS(infos);
     }
 }

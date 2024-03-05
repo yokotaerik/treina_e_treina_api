@@ -42,7 +42,7 @@ public class WorkoutService {
 
     LocalDate now = LocalDate.now();
 
-    public void createNewWorkout(CreateWorkoutDTO data){
+    public void createNewWorkout(CreateWorkoutDTO data, User user){
 
 
         var template = new Workout(null, data.name(), data.description(), true, null, now);
@@ -50,6 +50,7 @@ public class WorkoutService {
         var exercises = exerciseService.createExerciseList(data.exercisesDTOS(), template);
         template.setExercises(exercises);
         workoutRepository.save(template);
+        user.getWorkouts().add(template);
     }
 
     public Workout findById(Long id){
