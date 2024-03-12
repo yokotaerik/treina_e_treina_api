@@ -1,9 +1,11 @@
 package com.yokota.treino.mappers;
 
+import com.yokota.treino.dtos.exercise.ExerciseInWorksheetResponseDTO;
 import com.yokota.treino.model.exercise.Exercise;
 import com.yokota.treino.model.exercise.ExerciseInfo;
-import com.yokota.treino.model.exercise.dtos.ExerciseInfoResponseDTO;
-import com.yokota.treino.model.exercise.dtos.ExerciseResponseDTO;
+import com.yokota.treino.dtos.exercise.ExerciseInfoResponseDTO;
+import com.yokota.treino.dtos.exercise.ExerciseResponseDTO;
+import com.yokota.treino.model.exercise.ExerciseInWorksheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +27,19 @@ public class ExerciseMapper {
 
 
     public ExerciseInfoResponseDTO exerciseInfoToDTO(ExerciseInfo exerciseInfo){
-        return new ExerciseInfoResponseDTO(exerciseInfo.getId(), exerciseInfo.getName(), exerciseInfo.getDescription());
+        return new ExerciseInfoResponseDTO(exerciseInfo.getId(), exerciseInfo.getName());
     }
 
     public List<ExerciseInfoResponseDTO> exerciseInfoResponseDTOS(List<ExerciseInfo> infos){
         return infos.stream().map(this::exerciseInfoToDTO).collect(Collectors.toList());
     }
+
+    public ExerciseInWorksheetResponseDTO exerciseSetsToDTO(ExerciseInWorksheet exercise){
+        return new ExerciseInWorksheetResponseDTO(exercise.getId(), exerciseInfoToDTO(exercise.getInfo()), exercise.getNumberOfSets(), exercise.getNote());
+    }
+
+    public List<ExerciseInWorksheetResponseDTO> exerciseSetsResponseDTOList(List<ExerciseInWorksheet> exercises){
+        return exercises.stream().map(this::exerciseSetsToDTO).collect(Collectors.toList());
+    }
+
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "tb_exercise")
 public class Exercise {
 
     @Id
@@ -22,8 +23,9 @@ public class Exercise {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "exercise_info")
     private ExerciseInfo info;
 
-    @OneToMany()
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Set> sets;
 }

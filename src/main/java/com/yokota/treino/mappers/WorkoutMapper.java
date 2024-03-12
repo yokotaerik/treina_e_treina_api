@@ -1,7 +1,7 @@
 package com.yokota.treino.mappers;
 
 import com.yokota.treino.model.workout.Workout;
-import com.yokota.treino.model.workout.dtos.WorkoutResponseDTO;
+import com.yokota.treino.dtos.workout.WorkoutResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,15 +15,16 @@ public class WorkoutMapper {
     @Autowired
     private ExerciseMapper exerciseMapper;
 
+    @Autowired
+            private WorksheetMapper worksheetMapper;
+
     ModelMapper modelMapper = new ModelMapper();
 
     public WorkoutResponseDTO workoutToDTO(Workout workout){
         return new WorkoutResponseDTO(
                 workout.getId(),
-                workout.getName(),
-                workout.getDescription(),
+                worksheetMapper.worksheetToDTO(workout.getTemplate()),
                 exerciseMapper.exerciseResponseDTOList(workout.getExercises()),
-                workout.getIsTemplate(),
                 workout.getCreatedAt());
     }
 

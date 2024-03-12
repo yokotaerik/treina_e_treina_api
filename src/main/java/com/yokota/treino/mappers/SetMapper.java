@@ -1,7 +1,7 @@
 package com.yokota.treino.mappers;
 
 import com.yokota.treino.model.set.Set;
-import com.yokota.treino.model.set.SetResponseDTO;
+import com.yokota.treino.dtos.set.SetResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class SetMapper {
 
     public SetResponseDTO setToSetResponseDTO(Set set){
-        return new SetResponseDTO(set.getId(), set.getMinutesResting(), set.getReps(), set.getWeight());
+        return new SetResponseDTO(set.getId(), set.getMinutesResting(), set.getReps(), set.getWeight(), set.getNotes());
     }
 
     public List<SetResponseDTO> setListToSetListResponseDTO(List<Set> sets){

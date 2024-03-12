@@ -1,9 +1,9 @@
 package com.yokota.treino.controllers;
 
 import com.yokota.treino.infra.security.TokenService;
-import com.yokota.treino.model.user.AuthenticationDTO;
-import com.yokota.treino.model.user.LoginResponseDTO;
-import com.yokota.treino.model.user.RegisterDTO;
+import com.yokota.treino.dtos.user.AuthenticationDTO;
+import com.yokota.treino.dtos.user.LoginResponseDTO;
+import com.yokota.treino.dtos.user.RegisterDTO;
 import com.yokota.treino.model.user.User;
 import com.yokota.treino.repository.UserRepository;
 import jakarta.validation.Valid;

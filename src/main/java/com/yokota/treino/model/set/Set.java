@@ -22,6 +22,9 @@ public class Set {
     private double reps;
     private double minutesResting;
 
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
     @ManyToOne
     private Workout workout;
 }

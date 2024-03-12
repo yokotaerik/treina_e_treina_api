@@ -1,4 +1,4 @@
-package com.yokota.treino.model.user;
+package com.yokota.treino.dtos.user;
 
 public record LoginResponseDTO(String token) {
 }

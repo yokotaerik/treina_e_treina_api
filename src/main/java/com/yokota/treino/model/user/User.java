@@ -1,6 +1,7 @@
 package com.yokota.treino.model.user;
 
 import com.yokota.treino.model.workout.Workout;
+import com.yokota.treino.model.worksheet.Worksheet;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -27,8 +28,15 @@ public class User implements UserDetails {
     private String password;
     private UserRole role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Workout> workouts =  new ArrayList<>();
+
+    @OneToMany
+    private List<Worksheet> worksheets = new ArrayList<>();
+
+
+    @OneToMany
+    private List<Worksheet> archivedWorksheets = new ArrayList<>();
 
     public User(String login, String encryptedPassword, UserRole role) {
             this.login = login;
