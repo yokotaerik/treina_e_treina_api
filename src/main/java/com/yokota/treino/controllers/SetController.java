@@ -20,7 +20,7 @@ public class SetController {
     AuthorizationService authorizationService;
 
     @PatchMapping("/update")
-    public ResponseEntity<?> patchSet(@RequestBody List<PatchSetDTO> data) throws Exception {
+    public ResponseEntity<?> patchSet(@RequestBody List<PatchSetDTO> data) {
 
         var user = authorizationService.getCurrentUser();
 

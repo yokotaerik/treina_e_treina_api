@@ -1,5 +1,6 @@
 package com.yokota.treino.controllers;
 
+import com.yokota.treino.dtos.workout.WorkoutResponseDTO;
 import com.yokota.treino.model.user.User;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.model.worksheet.Worksheet;
@@ -7,7 +8,6 @@ import com.yokota.treino.service.AuthorizationService;
 import com.yokota.treino.service.UserService;
 import com.yokota.treino.service.WorkoutService;
 import com.yokota.treino.service.WorksheetService;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,35 +29,34 @@ public class WorkoutController {
     UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getWorkoutById(@PathVariable Long id) throws Exception {
-        User user = authorizationService.getCurrentUser();
+    public ResponseEntity<?> getWorkoutById(@PathVariable Long id){
 
         Workout workout = workoutService.findById(id);
 
-        var response = workoutService.returnWorkout(workout);
+        WorkoutResponseDTO response = workoutService.returnWorkout(workout);
 
         return ResponseEntity.ok(response);
     }
 
 
     @PostMapping("/start/{id}")
-    public ResponseEntity<?> startWorkout(@PathVariable Long id) throws Exception {
+    public ResponseEntity<?> startWorkout(@PathVariable Long id) {
         User user = authorizationService.getCurrentUser();
 
         Worksheet worksheet = worksheetService.findById(id);
 
         workoutService.startNewWorkout(worksheet, user);
 
-        return ResponseEntity.ok("Workout started");
+        return ResponseEntity.status(201).body("Workout started");
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteWorkout(@PathVariable Long id) throws Exception {
+    public ResponseEntity<?> deleteWorkout(@PathVariable Long id) {
         User user = authorizationService.getCurrentUser();
 
         Workout workout = workoutService.findById(id);
 
-        workoutService.deleteWorkout(workout);
+        workoutService.deleteWorkout(workout, user);
 
         return ResponseEntity.ok("DELETED");
     }
