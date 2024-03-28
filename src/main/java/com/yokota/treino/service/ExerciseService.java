@@ -39,6 +39,11 @@ public class ExerciseService {
 
     // Método para criar informações de exercício
     public void createExerciseInfo(AddExerciseInfoDTO data) {
+
+        if (exerciseExists(data.name())){
+            throw new IllegalArgumentException("Esse exercicio ja esta cadastrado!");
+        }
+
         ExerciseInfo exerciseInfo = new ExerciseInfo(null, data.name());
         exerciseInfoRepository.save(exerciseInfo);
     }

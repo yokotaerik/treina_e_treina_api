@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-    @RestController
-    @RequestMapping("/workout")
+@RestController
+@RequestMapping("/workout")
 public class WorkoutController {
 
     @Autowired
@@ -51,14 +51,14 @@ public class WorkoutController {
         return ResponseEntity.ok("Workout started");
     }
 
-        @DeleteMapping("/delete/{id}")
-        public ResponseEntity<?> deleteWorksheet(@PathVariable Long id) throws Exception {
-            User user = authorizationService.getCurrentUser();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteWorkout(@PathVariable Long id) throws Exception {
+        User user = authorizationService.getCurrentUser();
 
-            Workout workout = workoutService.findById(id);
+        Workout workout = workoutService.findById(id);
 
-            workoutService.deleteWorkout(workout);
+        workoutService.deleteWorkout(workout);
 
-            return ResponseEntity.ok("DELETED");
-        }
+        return ResponseEntity.ok("DELETED");
+    }
 }
