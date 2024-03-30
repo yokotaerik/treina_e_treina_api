@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/workout")
 public class WorkoutController {
@@ -34,6 +36,20 @@ public class WorkoutController {
         Workout workout = workoutService.findById(id);
 
         WorkoutResponseDTO response = workoutService.returnWorkout(workout);
+
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/worksheet/{id}")
+    public ResponseEntity<?> getWorkoutsFilterByWorksheetId(@PathVariable Long id){
+
+        User user = authorizationService.getCurrentUser();
+        Worksheet worksheet = worksheetService.findById(id);
+
+        List<Workout> workoutList = workoutService.getUsersWorkoutsByWorksheet(worksheet, user);
+
+        List<WorkoutResponseDTO> response = workoutService.returnWorkoutList(workoutList);
 
         return ResponseEntity.ok(response);
     }

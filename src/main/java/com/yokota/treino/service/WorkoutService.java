@@ -60,6 +60,11 @@ public class WorkoutService {
         return workoutMapper.workoutToDTO(workout);
     }
 
+    public List<WorkoutResponseDTO> returnWorkoutList(List<Workout> workouts){
+        return workoutMapper.workoutResponseDTOList(workouts);
+    }
+
+
 
     // Retorna todos os treinos do usuário
     public List<WorkoutResponseDTO> returnUserWorkouts(User user){
@@ -84,4 +89,9 @@ public class WorkoutService {
         newWorkout.setExercises(newExercises);
         workoutRepository.save(newWorkout);
     }
+
+    public List<Workout> getUsersWorkoutsByWorksheet(Worksheet worksheet, User user){
+        return user.getWorkouts().stream().filter((workout -> workout.getTemplate().equals(worksheet))).toList();
+    }
+
 }

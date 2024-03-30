@@ -16,9 +16,7 @@ public class WorkoutMapper {
     private ExerciseMapper exerciseMapper;
 
     @Autowired
-            private WorksheetMapper worksheetMapper;
-
-    ModelMapper modelMapper = new ModelMapper();
+    private WorksheetMapper worksheetMapper;
 
     public WorkoutResponseDTO workoutToDTO(Workout workout){
         return new WorkoutResponseDTO(

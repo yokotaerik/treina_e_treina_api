@@ -16,8 +16,7 @@ import com.yokota.treino.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ExerciseService {
@@ -79,11 +78,14 @@ public class ExerciseService {
 
         Exercise exercise = new Exercise(null, exerciseInfo, null);
 
+        exerciseRepository.save(exercise);
+
         List<Set> sets = new ArrayList<>();
         for (int i = 0; i < numberOfSets; i++) {
             var set = new Set();
             set.setWorkout(workout);
             sets.add(set);
+            set.setExercise(exercise.getInfo());
             setRepository.save(set);
         }
 
@@ -101,20 +103,20 @@ public class ExerciseService {
     }
 
     // Método para criar uma lista de entidades de exercício em um treino
-    public List<Exercise> createExerciseList(List<AddExerciseDTO> data, Workout workout){
-        List<Exercise> exercises = new ArrayList<>();
-
-        data.forEach(addExerciseDTO -> {
-            try {
-                ExerciseInfo exerciseInfo = findExerciseInfoById(addExerciseDTO.exerciseId());
-                exercises.add(createExerciseEntity(exerciseInfo, addExerciseDTO.numberOfSets(), workout));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        return exercises;
-    }
+//    public List<Exercise> createExerciseList(List<AddExerciseDTO> data, Workout workout){
+//        List<Exercise> exercises = new ArrayList<>();
+//
+//        data.forEach(addExerciseDTO -> {
+//            try {
+//                ExerciseInfo exerciseInfo = findExerciseInfoById(addExerciseDTO.exerciseId());
+//                exercises.add(createExerciseEntity(exerciseInfo, addExerciseDTO.numberOfSets(), workout));
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//
+//        return exercises;
+//    }
 
     // Método para verificar se um exercício existe pelo nome
     public boolean exerciseExists(String name){

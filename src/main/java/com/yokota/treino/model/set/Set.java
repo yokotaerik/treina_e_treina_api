@@ -1,5 +1,6 @@
 package com.yokota.treino.model.set;
 
+import com.yokota.treino.model.exercise.ExerciseInfo;
 import com.yokota.treino.model.workout.Workout;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,4 +28,9 @@ public class Set {
 
     @ManyToOne
     private Workout workout;
+
+    @ManyToOne
+    private ExerciseInfo exercise;
+
+
 }
