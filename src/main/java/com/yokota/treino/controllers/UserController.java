@@ -8,6 +8,7 @@ import com.yokota.treino.dtos.workout.WorkoutResponseDTO;
 import com.yokota.treino.dtos.worksheet.WorksheetResponseDTO;
 import com.yokota.treino.mappers.SetMapper;
 import com.yokota.treino.mappers.WorkoutMapper;
+import com.yokota.treino.mappers.WorksheetMapper;
 import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.user.User;
 import com.yokota.treino.model.workout.Workout;
@@ -47,15 +48,23 @@ public class UserController {
     @Autowired
     WorkoutMapper workoutMapper;
 
+    @Autowired
+    WorksheetMapper worksheetMapper;
+
     @GetMapping("/workouts")
     public ResponseEntity<?> getUserWorkouts(){
         User user = authorizationService.getCurrentUser();
 
-        List<WorksheetResponseDTO> worksheets =  worksheetService.returnUserWorksheetList(user);
+        List<Worksheet> worksheets =  worksheetService.returnUserWorksheetList(user);
 
-        List<WorkoutResponseDTO> workouts = workoutService.returnUserWorkouts(user);
+        List<WorksheetResponseDTO> worksheetResponseDTOList = worksheetMapper.worksheetResponseToDTOList(worksheets);
 
-        return ResponseEntity.ok(new ReturnUserWorkoutsAndWorksheets(worksheets, workouts));
+        List<Workout> workouts = workoutService.returnUserWorkouts(user);
+
+        List<WorkoutResponseDTO> workoutResponseDTOList = workoutMapper.workoutResponseDTOList(workouts);
+
+
+        return ResponseEntity.ok(new ReturnUserWorkoutsAndWorksheets(worksheetResponseDTOList, workoutResponseDTOList));
     }
 
 
@@ -63,9 +72,12 @@ public class UserController {
     public ResponseEntity<?> getArchivedWorksheets() {
         User user = authorizationService.getCurrentUser();
 
-        List<WorksheetResponseDTO> worksheets =  worksheetService.returnUserArchivedWorksheetList(user);
+        List<Worksheet> worksheets =  worksheetService.returnUserArchivedWorksheetList(user);
 
-        return ResponseEntity.ok(worksheets);
+        List<WorksheetResponseDTO>response = worksheetMapper.worksheetResponseToDTOList(worksheets);
+
+
+        return ResponseEntity.ok(response);
     }
 
 

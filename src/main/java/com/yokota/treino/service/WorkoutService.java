@@ -67,9 +67,8 @@ public class WorkoutService {
 
 
     // Retorna todos os treinos do usuário
-    public List<WorkoutResponseDTO> returnUserWorkouts(User user){
-        List<Workout> workouts = user.getWorkouts();
-        return workoutMapper.workoutResponseDTOList(workouts);
+    public List<Workout> returnUserWorkouts(User user){
+        return user.getWorkouts();
     }
 
     // Inicia um novo treino com base em uma planilha de treino

@@ -54,14 +54,12 @@ public class WorksheetService {
     }
 
     // Retorna uma lista de DTOs de resposta de planilha de treino do usuário
-    public List<WorksheetResponseDTO> returnUserWorksheetList(User user) {
-        List<Worksheet> templates = user.getWorksheets();
-        return worksheetMapper.worksheetResponseToDTOList(templates);
+    public List<Worksheet> returnUserWorksheetList(User user) {
+        return user.getWorksheets();
     }
 
-    public List<WorksheetResponseDTO> returnUserArchivedWorksheetList(User user) {
-        List<Worksheet> templates = user.getArchivedWorksheets();
-        return worksheetMapper.worksheetResponseToDTOList(templates);
+    public List<Worksheet> returnUserArchivedWorksheetList(User user) {
+        return user.getArchivedWorksheets();
     }
 
     // Deleta a worksheet e sua dependencias
