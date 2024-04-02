@@ -3,6 +3,7 @@ package com.yokota.treino.service;
 import com.yokota.treino.dtos.set.PatchSetDTO;
 import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.user.User;
+import com.yokota.treino.model.worksheet.Worksheet;
 import com.yokota.treino.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -41,10 +42,10 @@ public class SetService {
         if (data.minutesResting() >= 0) {
             set.setMinutesResting(data.minutesResting());
         }
-        if (data.reps() > 0) {
+        if (data.reps() >= 0) {
             set.setReps(data.reps());
         }
-        if (data.weight() > 0) {
+        if (data.weight() >= 0) {
             set.setWeight(data.weight());
         }
         if (data.notes() != null) {
@@ -52,6 +53,16 @@ public class SetService {
         }
 
         setRepository.save(set);
+    }
+
+    public List<Set> getHeaviestSets(Worksheet worksheet, User user){
+
+        return setRepository.findMaxWeightSetsByWorksheetAndUserId(worksheet.getId(), user.getId());
+    }
+
+    public List<Set> getBestSets(Worksheet worksheet, User user){
+
+        return setRepository.findMaxLoadSetsByWorksheetAndUserId(worksheet.getId(), user.getId());
     }
 
 }

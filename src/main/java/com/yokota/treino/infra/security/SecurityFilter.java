@@ -1,6 +1,7 @@
 package com.yokota.treino.infra.security;
 
 import com.yokota.treino.repository.UserRepository;
+import com.yokota.treino.service.AuthorizationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,14 +20,14 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
     @Autowired
-    UserRepository userRepository;
+    AuthorizationService authorizationService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
         if(token != null){
             var login = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByLogin(login);
+            UserDetails user = authorizationService.loadUserByUsername(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

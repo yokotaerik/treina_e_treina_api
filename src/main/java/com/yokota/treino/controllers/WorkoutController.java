@@ -1,13 +1,11 @@
 package com.yokota.treino.controllers;
 
 import com.yokota.treino.dtos.workout.WorkoutResponseDTO;
+import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.user.User;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.model.worksheet.Worksheet;
-import com.yokota.treino.service.AuthorizationService;
-import com.yokota.treino.service.UserService;
-import com.yokota.treino.service.WorkoutService;
-import com.yokota.treino.service.WorksheetService;
+import com.yokota.treino.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,20 +38,6 @@ public class WorkoutController {
 
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/worksheet/{id}")
-    public ResponseEntity<?> getWorkoutsFilterByWorksheetId(@PathVariable Long id){
-
-        User user = authorizationService.getCurrentUser();
-        Worksheet worksheet = worksheetService.findById(id);
-
-        List<Workout> workoutList = workoutService.getUsersWorkoutsByWorksheet(worksheet, user);
-
-        List<WorkoutResponseDTO> response = workoutService.returnWorkoutList(workoutList);
-
-        return ResponseEntity.ok(response);
-    }
-
 
     @PostMapping("/start/{id}")
     public ResponseEntity<?> startWorkout(@PathVariable Long id) {

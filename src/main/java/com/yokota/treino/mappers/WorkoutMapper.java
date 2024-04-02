@@ -1,5 +1,6 @@
 package com.yokota.treino.mappers;
 
+import com.yokota.treino.dtos.workout.WorkoutIdDTO;
 import com.yokota.treino.model.workout.Workout;
 import com.yokota.treino.dtos.workout.WorkoutResponseDTO;
 import org.modelmapper.ModelMapper;
@@ -28,5 +29,9 @@ public class WorkoutMapper {
 
     public List<WorkoutResponseDTO> workoutResponseDTOList(List<Workout> workouts){
         return workouts.stream().map(this::workoutToDTO).collect(Collectors.toList());
+    }
+
+    public List<WorkoutIdDTO> workoutIdDTOList(List<Workout> workouts){
+        return workouts.stream().map(workout -> new WorkoutIdDTO(workout.getId())).collect(Collectors.toList());
     }
 }
