@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
 
 @Service
 public class WorkoutService {
@@ -68,11 +70,20 @@ public class WorkoutService {
 
     // Retorna todos os treinos do usuário
     public List<Workout> returnUserWorkouts(User user){
-        return user.getWorkouts();
+        List<Workout> workouts = user.getWorkouts();
+
+        workouts.sort(new Comparator<Workout>() {
+            @Override
+            public int compare(Workout w1, Workout w2) {
+                return w2.getCreatedAt().compareTo(w1.getCreatedAt());
+            }
+        });
+
+        return workouts;
     }
 
     // Inicia um novo treino com base em uma planilha de treino
-    public void startNewWorkout(Worksheet worksheet, User user){
+    public Workout startNewWorkout(Worksheet worksheet, User user){
         Workout newWorkout = new Workout();
         newWorkout.setUser(user);
         newWorkout.setCreatedAt(now);
@@ -87,6 +98,7 @@ public class WorkoutService {
 
         newWorkout.setExercises(newExercises);
         workoutRepository.save(newWorkout);
+        return newWorkout;
     }
 
     public List<Workout> getUsersWorkoutsByWorksheet(Worksheet worksheet, User user){

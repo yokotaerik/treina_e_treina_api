@@ -27,6 +27,7 @@ public interface SetRepository extends JpaRepository<Set, Long> {
 
     @Query(value = "SELECT s.*, " +
             "CASE " +
+            "   WHEN s.reps = 0 AND s.weight = 0 THEN NULL " +
             "   WHEN (s.weight * s.reps) > 0 THEN s.weight * s.reps " +
             "   ELSE s.reps " +
             "END AS max_load " +
@@ -43,7 +44,8 @@ public interface SetRepository extends JpaRepository<Set, Long> {
             "    JOIN exercise_info ei ON s2.exercise_id = ei.id " +
             "    WHERE ws.id = :worksheetId AND w.user_id = :userId " +
             "    GROUP BY ei.id " +
-            ") max_loads ON s.exercise_id = max_loads.exercise_id AND (CASE WHEN (s.weight * s.reps) > 0 THEN s.weight * s.reps ELSE s.reps END) = max_loads.max_load",
+            ") max_loads ON s.exercise_id = max_loads.exercise_id AND (CASE WHEN (s.weight * s.reps) > 0 THEN s.weight * s.reps ELSE s.reps END) = max_loads.max_load " +
+            "WHERE NOT (s.reps = 0 AND s.weight = 0)",
             nativeQuery = true)
     List<Set> findMaxLoadSetsByWorksheetAndUserId(@Param("worksheetId") Long worksheetId, @Param("userId") Long userId);
 

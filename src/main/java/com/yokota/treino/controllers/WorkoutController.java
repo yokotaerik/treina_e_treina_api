@@ -1,5 +1,6 @@
 package com.yokota.treino.controllers;
 
+import com.yokota.treino.dtos.workout.WorkoutIdDTO;
 import com.yokota.treino.dtos.workout.WorkoutResponseDTO;
 import com.yokota.treino.model.set.Set;
 import com.yokota.treino.model.user.User;
@@ -45,9 +46,9 @@ public class WorkoutController {
 
         Worksheet worksheet = worksheetService.findById(id);
 
-        workoutService.startNewWorkout(worksheet, user);
+        Workout workout = workoutService.startNewWorkout(worksheet, user);
 
-        return ResponseEntity.status(201).body("Workout started");
+        return ResponseEntity.status(201).body(new WorkoutIdDTO(workout.getId()));
     }
 
     @DeleteMapping("/delete/{id}")
