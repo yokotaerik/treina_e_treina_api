@@ -97,8 +97,10 @@ public class UserController {
 
         List<SetResponseDTO> bestSetsDTO = setMapper.setListToSetListResponseDTO(bestSets);
 
-        List<WorkoutIdDTO> workouts = workoutMapper.workoutIdDTOList(workoutList);
+        WorksheetResponseDTO worksheetResponseDTO = worksheetMapper.worksheetToDTO(worksheet);
+        
+        List<WorkoutResponseDTO> workouts = workoutMapper.workoutResponseDTOList(workoutList);
 
-        return ResponseEntity.ok(new UserWorkoutStats(workouts, heaviestSetsDTO, bestSetsDTO));
+        return ResponseEntity.ok(new UserWorkoutStats(worksheetResponseDTO, workouts, heaviestSetsDTO, bestSetsDTO));
     }
 }

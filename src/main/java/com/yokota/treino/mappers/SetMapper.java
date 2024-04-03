@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class SetMapper {
 
     public SetResponseDTO setToSetResponseDTO(Set set){
-        return new SetResponseDTO(set.getId(), set.getMinutesResting(), set.getReps(), set.getWeight(), set.getNotes());
+        return new SetResponseDTO(set.getId(), set.getMinutesResting(), set.getReps(), set.getWeight(), set.getNotes(), set.getExercise().getName());
     }
 
     public List<SetResponseDTO> setListToSetListResponseDTO(List<Set> sets){

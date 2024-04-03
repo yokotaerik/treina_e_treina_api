@@ -31,7 +31,4 @@ public class WorkoutMapper {
         return workouts.stream().map(this::workoutToDTO).collect(Collectors.toList());
     }
 
-    public List<WorkoutIdDTO> workoutIdDTOList(List<Workout> workouts){
-        return workouts.stream().map(workout -> new WorkoutIdDTO(workout.getId())).collect(Collectors.toList());
-    }
 }
